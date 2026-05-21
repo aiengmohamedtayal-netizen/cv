@@ -20,13 +20,21 @@ export const Contact = () => {
     const data = Object.fromEntries(formData.entries());
 
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("https://formsubmit.co/ajax/ai4241379@deltauniv.edu.eg", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          ...data,
+          _subject: `New Portfolio Inquiry: ${data.subject || 'Contact'}`,
+          _template: "table"
+        }),
       });
+      
       const result = await res.json();
-      if (!res.ok) throw new Error(result.error || "Failed to send message");
+      if (result.success !== "true" && !result.success) throw new Error("Failed to send message");
       
       toast.success(result.message || "Your message has been sent successfully!");
       form.reset();

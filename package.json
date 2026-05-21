@@ -4,9 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev:frontend": "vite",
-    "dev:server": "cd server && npm install && npm run dev",
-    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:server\"",
+    "dev": "vite",
     "build": "vite build && node -e \"require('fs').copyFileSync('dist/index.html', 'dist/404.html')\"",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
