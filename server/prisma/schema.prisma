@@ -1,0 +1,62 @@
+// ============================================
+// Prisma Schema - Mohamed Tayel Portfolio
+// Database: SQLite
+// ============================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model ContactRequest {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  company   String?
+  subject   String
+  budget    String?
+  message   String
+  status    String   @default("جديد")
+  assignedTo  String?
+  notes       String?
+  ipAddress   String?
+  userAgent   String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("contact_requests")
+}
+
+model AdminUser {
+  id           String    @id @default(uuid())
+  name         String
+  email        String    @unique
+  passwordHash String    @map("password_hash")
+  role         String    @default("ADMIN")
+  isActive     Boolean   @default(true) @map("is_active")
+  lastLoginAt  DateTime? @map("last_login_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  auditLogs    AuditLog[]
+
+  @@map("admin_users")
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  entityType  String   @map("entity_type")
+  entityId    String   @map("entity_id")
+  action      String
+  oldData     String?  @map("old_data")
+  newData     String?  @map("new_data")
+  performedBy String   @map("performed_by")
+  createdAt   DateTime @default(now()) @map("created_at")
+  admin       AdminUser @relation(fields: [performedBy], references: [id])
+
+  @@map("audit_logs")
+}
