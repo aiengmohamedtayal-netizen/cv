@@ -3,24 +3,24 @@ import { GraduationCap, Briefcase, Sparkles, Rocket } from "lucide-react";
 
 const timeline = [
   {
-    icon: Rocket, year: "2025 — now", title: "Independent AI Engineer",
-    org: "Freelance · Remote",
-    text: "Designing and shipping LLM agents, RAG systems, and AI-native interfaces for startups.",
+    icon: Rocket, year: "2025 — Future", title: "Aspiring AI Engineer",
+    org: "Career Goals",
+    text: "Focused on combining AI with modern web technologies to build intelligent and impactful digital products.",
   },
   {
-    icon: Briefcase, year: "2024", title: "Full-stack & ML Projects",
-    org: "Open Source · Client work",
-    text: "Built production ML features: vector search, evals, fine-tuned models with measurable lift.",
-  },
-  {
-    icon: Sparkles, year: "2023", title: "AI Engineering Deep Dive",
-    org: "Self-directed",
-    text: "From classical ML to transformers, agents, and tooling. Papers, experiments, side-projects.",
-  },
-  {
-    icon: GraduationCap, year: "2021 — 2025", title: "BSc Computer Science",
+    icon: GraduationCap, year: "2025 — Present", title: "BSc Artificial Intelligence & Computer Science",
     org: "Delta University for Science and Technology",
-    text: "Foundations: algorithms, data structures, math, systems. Capstone in applied AI.",
+    text: "Building strong foundations in artificial intelligence, programming, algorithms, and intelligent systems.",
+  },
+  {
+    icon: Sparkles, year: "2025", title: "AI & Smart Systems Exploration",
+    org: "Academic & Personal Projects",
+    text: "Exploring AI concepts, intelligent applications, and modern software solutions through academic and personal projects.",
+  },
+  {
+    icon: Briefcase, year: "2025", title: "Front-End Development Journey",
+    org: "Self-directed Learning",
+    text: "Learning modern front-end development with React.js, JavaScript, responsive design, and interactive web interfaces.",
   },
 ];
 
@@ -29,7 +29,7 @@ export const Experience = () => (
     <div className="container max-w-4xl">
       <div className="text-center">
         <div className="section-eyebrow">Journey</div>
-        <h2 className="mt-4 font-display text-4xl md:text-5xl font-bold">From <span className="text-gradient">curious student</span> to AI engineer.</h2>
+        <h2 className="mt-4 font-display text-4xl md:text-5xl font-bold">From <span className="text-gradient">curiosity</span> to intelligent systems.</h2>
       </div>
       <div className="mt-14 relative">
         <div className="absolute left-5 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-primary/40 to-transparent" />
