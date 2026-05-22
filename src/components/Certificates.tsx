@@ -131,7 +131,7 @@ export const Certificates = () => (
       <div className="text-center max-w-2xl mx-auto">
         <div className="section-eyebrow">Achievements</div>
         <h2 className="mt-4 font-display text-4xl md:text-5xl font-bold">Official <span className="text-gradient">Certificates</span>.</h2>
-        <p className="mt-4 text-muted-foreground leading-relaxed">Accredited certificates from trusted educational platforms</p>
+        <p className="mt-4 text-muted-foreground leading-relaxed">All my certificates are available on LinkedIn — visit my profile to view them.</p>
       </div>
       
       <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
