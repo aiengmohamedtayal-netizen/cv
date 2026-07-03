@@ -1,26 +1,57 @@
-# Mohamed Tayel - AI Developer & Full Stack Portfolio
+# Mohamed Tayel - Senior Frontend & AI Engineer Portfolio
 
-Welcome to the premium, standalone portfolio for Mohamed Tayel. This project is a completely independent, production-ready full-stack application built natively with React, Vite, Express, and Prisma. 
+Welcome to the premium, standalone portfolio for Mohamed Tayel. This project is a modern, production-ready frontend application built natively with React, Vite, and TypeScript.
 
-It features an integrated Admin Dashboard for managing contact requests, robust local asset serving for certificates, and a stunning framer-motion powered glassmorphism UI.
+## 🚀 Description
 
-## 🚀 Technology Stack
+A stunning personal portfolio showcasing projects, experience, and certificates. It features an integrated 3D Spline scene, a gorgeous framer-motion powered glassmorphism UI, and robust accessibility standards.
 
-**Frontend:**
+## ✨ Features
+
+- **Interactive 3D Elements:** Integrated Spline scene for a highly immersive hero section.
+- **Modern UI/UX:** Glassmorphism design system using Tailwind CSS and shadcn/ui.
+- **Cinematic Animations:** Smooth scroll and reveal effects powered by Framer Motion.
+- **Responsive:** Mobile-first approach ensuring a perfect experience across all devices.
+- **Performance Optimized:** Built with Vite for lightning-fast HMR and optimized production bundles.
+- **Strict Typing:** 100% TypeScript for reliable, bug-free components.
+
+## 🛠️ Tech Stack
+
+**Core:**
 - React 18
+- TypeScript
 - Vite
+
+**Styling & UI:**
 - Tailwind CSS (Glassmorphism UI)
+- shadcn/ui
 - Framer Motion (Cinematic Animations)
 - Lucide React (Icons)
-- React Router DOM
+- Spline (3D Web Experiences)
 
-**Backend:**
-- Node.js & Express
-- Prisma ORM (SQLite / PostgreSQL)
-- JWT Authentication
-- Bcrypt (Password Hashing)
+**Routing & Utilities:**
+- React Router DOM v6 (v7 future flags enabled)
+- React Hook Form
+- Sonner (Toasts)
 
----
+## 📂 Folder Structure
+
+```
+.
+├── public/                 # Static assets (images, fonts, sitemap.xml)
+├── src/                    
+│   ├── components/         # React components
+│   │   ├── blocks/         # High-level feature blocks
+│   │   ├── ui/             # Reusable UI primitives (shadcn)
+│   ├── data/               # Static data for portfolio content
+│   ├── pages/              # Route components
+│   ├── App.tsx             # Main application layout and routing
+│   ├── main.tsx            # React entry point
+│   └── index.css           # Global styles and Tailwind directives
+├── package.json            # Dependencies and scripts
+├── vite.config.ts          # Vite configuration
+└── tailwind.config.ts      # Tailwind configuration
+```
 
 ## 💻 Local Setup & Development
 
@@ -28,42 +59,21 @@ It features an integrated Admin Dashboard for managing contact requests, robust 
 Ensure you have **Node.js** (v18+) and **npm** installed on your machine.
 
 ### 2. Installation
-Run the following command in the root directory. It will install dependencies for **both** the React frontend and the Express backend concurrently.
+Run the following command in the root directory to install dependencies.
 ```bash
 npm install
 ```
 
-### 3. Environment Configuration
-Navigate to the `server/` directory and ensure your environment variables are configured. A `.env.example` file is provided.
-Create a `.env` file inside `server/` with the following variables:
-```env
-PORT=3000
-NODE_ENV=development
-DATABASE_URL="file:./dev.db" # Or your PostgreSQL URL
-JWT_SECRET="your-super-secret-key"
-```
-
-### 4. Database Initialization
-This project uses Prisma with SQLite out of the box for instant local development.
-Run the following commands inside the `server/` directory:
-```bash
-npx prisma db push
-npm run db:seed
-```
-*(The seed script generates a default admin user: `admin@mohamed.dev` / `admin123`)*
-
-### 5. Start Development Server
-Start the entire full-stack application (Frontend + Backend + Vite Proxy) concurrently from the root directory:
+### 3. Start Development Server
+Start the Vite development server with Hot Module Replacement (HMR).
 ```bash
 npm run dev
 ```
-- **Portfolio:** http://localhost:8080
-- **Admin Dashboard:** http://localhost:8080/admin
-- **API Backend:** http://localhost:3000
+Access the application at: http://localhost:8080
 
 ---
 
-## 📦 Production Build
+## 📦 Build
 
 To bundle the application for production, run:
 ```bash
@@ -75,22 +85,25 @@ The optimized HTML, CSS, and JS files will be generated in the `dist/` directory
 
 ## ☁️ Deployment Instructions
 
-### Frontend (Vercel / Netlify / Hostinger)
-1. Set the build command to: `npm run build`
-2. Set the publish directory to: `dist`
-3. Ensure you configure API rewrites/proxies in your hosting provider to route `/api/*` traffic to your deployed backend URL.
+### Vercel / Netlify / Hostinger
+1. **Build Command:** `npm run build`
+2. **Publish Directory:** `dist`
+3. **Node Version:** 18.x or 20.x
 
-### Backend (Render / Railway / VPS)
-1. Deploy the `server/` directory as a Node.js application.
-2. Ensure you define `DATABASE_URL` (preferably PostgreSQL in production) and `JWT_SECRET` in your hosting environment variables.
-3. The server will start via `tsx src/server.ts` or compiled JavaScript.
+*(Note: The build script automatically copies `index.html` to `404.html` to handle client-side routing on static hosts.)*
 
 ---
 
-## 🔒 Admin Dashboard
-The portfolio includes a hidden admin dashboard seamlessly integrated into the premium frontend UI to manage incoming messages from the contact form.
-- **Route:** `/admin`
-- Logs securely interact with the backend `/api/requests` endpoint and enforce JWT authentication.
+## 🌍 Environment Variables
+Create a `.env` file in the root if you plan to integrate an API backend in the future. See `.env.example` for reference.
 
-## 📄 Certificates & Assets
-All 13 original certificate PDFs and images are cached securely in the `public/` directory, allowing flawless, rapid loading in production environments via Vite static asset resolution.
+## 📸 Screenshots
+*(Coming Soon)*
+
+## 🙌 Credits
+- Design Inspiration: Modern Glassmorphism & Cyberpunk aesthetics.
+- UI Components: [shadcn/ui](https://ui.shadcn.com/)
+- 3D Models: [Spline](https://spline.design/)
+
+## 📄 License
+This project is licensed under the [MIT License](LICENSE).

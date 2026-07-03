@@ -32,3 +32,6 @@ dist-ssr
 *.db
 *.db-journal
 dev.db
+
+# Agent configs
+.agent/
