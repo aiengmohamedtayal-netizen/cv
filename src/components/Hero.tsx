@@ -151,7 +151,7 @@ export const Hero = () => {
                 <img 
                   src="/images/profile.jpg" 
                   alt="Mohamed Tayal" 
-                  className="w-full h-full object-cover transform scale-[1.15] translate-y-1 group-hover:scale-[1.25] transition-transform duration-700"
+                  className="w-full h-full object-cover transform scale-[1.25] translate-y-3 group-hover:scale-[1.35] transition-transform duration-700"
                 />
               </div>
               
