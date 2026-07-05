@@ -60,6 +60,14 @@ const certificates: Certificate[] = [
     description: "Backend development, Web application architecture, Dynamic web apps."
   },
   {
+    id: "verizon-orientation",
+    title: "Verizon Skill Forward Orientation Course",
+    issuer: "edX",
+    date: "February 2026",
+    category: "Other",
+    credentialId: "2176429785744d0bb85833259a01eb27"
+  },
+  {
     id: "ai-automation",
     title: "AI Automation Kickstart",
     issuer: "Udemy",
@@ -69,6 +77,13 @@ const certificates: Certificate[] = [
     description: "Focused on AI workflow automation, Intelligent systems, Process optimization."
   },
   {
+    id: "soft-skills-creative",
+    title: "Essential Soft Skills for Creative Professionals",
+    issuer: "LinkedIn Learning",
+    date: "January 2026",
+    category: "Other"
+  },
+  {
     id: "dotnet-backend",
     title: "Back-End Web Development with .NET",
     issuer: "Microsoft",
@@ -76,23 +91,256 @@ const certificates: Certificate[] = [
     category: "Web Development",
     description: ".NET backend development, APIs, Server-side application development."
   },
-  { 
+  {
+    id: "sorting-algorithms",
+    title: "Introduction to the Sorting Algorithms",
+    issuer: "SkillUp by Simplilearn",
+    date: "November 2025",
+    category: "Web Development",
+    credentialId: "9323087",
+    description: "Sorting algorithms, Computational thinking, Data structures fundamentals."
+  },
+  {
+    id: "tf-nlp-transfer",
+    title: "Transfer Learning for NLP with TensorFlow Hub",
+    issuer: "Google",
+    date: "2025",
+    category: "AI & ML",
+    description: "Natural Language Processing, Transfer Learning models, TensorFlow Hub integration."
+  },
+  {
+    id: "aws-devops-genai",
+    title: "DevOps and AI on AWS: Upgrading Apps with Generative AI",
+    issuer: "AWS",
+    date: "2025",
+    category: "AI & ML",
+    description: "Cloud DevOps practices, AWS integration, Generative AI application upgrading."
+  },
+  {
+    id: "applied-ml-python",
+    title: "Applied Machine Learning in Python",
+    issuer: "Coursera",
+    date: "2025",
+    category: "AI & ML",
+    description: "Machine Learning models, Scikit-learn, Feature engineering, Model evaluation in Python."
+  },
+  {
+    id: "genai-ux-ui",
+    title: "Generative AI: The Future of UX UI Design",
+    issuer: "Coursera",
+    date: "2025",
+    category: "AI & ML",
+    description: "Integrating Generative AI tools into UX/UI design workflows, User experience prototyping."
+  },
+  {
+    id: "intro-llms",
+    title: "Introduction to Large Language Models",
+    issuer: "Google",
+    date: "2025",
+    category: "AI & ML",
+    description: "Foundational LLM concepts, Prompting principles, and Generative AI applications."
+  },
+  {
+    id: "genai-intro-apps",
+    title: "Generative AI: Introduction and Applications",
+    issuer: "IBM",
+    date: "2025",
+    category: "AI & ML",
+    description: "Introduction to Generative AI, Large Language Models, and practical applications in industry."
+  },
+  {
+    id: "effective-comm",
+    title: "Effective Communication Skills",
+    issuer: "IBM",
+    date: "2025",
+    category: "Other",
+    description: "Professional communication, Active listening, Writing, and Presentation skills."
+  },
+  {
+    id: "cybersecurity-foundations",
+    title: "Cybersecurity Foundations: Threats, Networks, and IoT Protection",
+    issuer: "IBM",
+    date: "2025",
+    category: "Other",
+    description: "Cybersecurity threats, Network security protocols, IoT vulnerability protection."
+  },
+  {
+    id: "programming-js",
+    title: "Programming with JavaScript",
+    issuer: "Meta",
+    date: "2025",
+    category: "Web Development",
+    description: "JavaScript syntax, OOP, Functional programming, Testing with Jest."
+  },
+  {
+    id: "intro-frontend",
+    title: "Introduction to Front-End Development",
+    issuer: "Meta",
+    date: "2025",
+    category: "Web Development",
+    description: "Core web technologies, HTML5, CSS3, Responsive design, Developer tools."
+  },
+  {
+    id: "tech-support-fundamentals",
+    title: "Technical Support Fundamentals",
+    issuer: "Google",
+    date: "2025",
+    category: "Other",
+    description: "IT support infrastructure, Technical terminology, Troubleshooting protocols."
+  },
+  {
+    id: "ux-foundations",
+    title: "Foundations of User Experience (UX) Design",
+    issuer: "Google",
+    date: "2025",
+    category: "Other",
+    description: "UX design process, User research, Wireframing, Prototyping, Accessibility principles."
+  },
+  {
+    id: "edx-remote-work",
+    title: "edX Verified Certificate for Remote Work Revolution for Everyone",
+    issuer: "edX",
+    date: "2026",
+    category: "Other",
+    description: "Remote team collaboration, Digital tools, Communication, Trust building."
+  },
+  {
+    id: "edx-prompt-eng",
+    title: "edX Verified Certificate for Introduction to Prompt Engineering",
+    issuer: "edX",
+    date: "2026",
+    category: "AI & ML",
+    description: "Prompt design, Large Language Models prompting techniques, AI interaction optimization."
+  },
+  {
+    id: "edx-business-data-analysis",
+    title: "edX Professional Certificate for Business and Data Analysis Skills",
+    issuer: "edX",
+    date: "2026",
+    category: "Business",
+    description: "Data analysis methodologies, Business intelligence, Excel and visualization tools."
+  },
+  {
+    id: "edx-it-support-cases",
+    title: "edX Verified Certificate for IT Support Case Studies",
+    issuer: "edX",
+    date: "2026",
+    category: "Other",
+    description: "Real-world IT support case studies, Troubleshooting, Network and OS configurations."
+  },
+  {
+    id: "edx-intro-genai",
+    title: "edX Verified Certificate for Introduction to Generative AI",
+    issuer: "edX",
+    date: "2026",
+    category: "AI & ML",
+    description: "Foundations of Generative AI, LLMs, Neural Networks, Ethical considerations."
+  },
+  {
+    id: "azure-ml-experiment",
+    title: "Experiment with Azure Machine Learning",
+    issuer: "Microsoft",
+    date: "2025",
+    category: "AI & ML",
+    description: "Azure Machine Learning workspace, Data engineering, Model training and deployment on Azure."
+  },
+  {
+    id: "ai-for-startups",
+    title: "AI for Startups",
+    issuer: "Google",
+    date: "2025",
+    category: "AI & ML",
+    description: "Leveraging Artificial Intelligence to scale startups, Product development, Growth strategies."
+  },
+  {
+    id: "eyouth-data-analysis",
+    title: "EYouth Business Honor Code Certificate for Data Analysis",
+    issuer: "EYouth",
+    date: "2025",
+    category: "Business",
+    description: "Data analysis pipelines, Data visualization, Business data decision making."
+  },
+  {
+    id: "eyouth-data-analysis-awareness",
+    title: "EYouth Business Honor Code Certificate for Data Analysis Awareness",
+    issuer: "EYouth",
+    date: "2025",
+    category: "Business",
+    description: "Data literacy, Analyzing business metrics, Structural data awareness."
+  },
+  {
+    id: "eyouth-data-analysis-powerbi",
+    title: "EYouth Business Honor Code Certificate for Data Analysis Using Power BI",
+    issuer: "EYouth",
+    date: "2025",
+    category: "Business",
+    description: "Interactive dashboard design, DAX formulas, Power BI reports."
+  },
+  {
+    id: "eyouth-data-analysis-excel",
+    title: "EYouth Business Honor Code Certificate for Data Analysis Using Excel",
+    issuer: "EYouth",
+    date: "2025",
+    category: "Business",
+    description: "Advanced Excel functions, Pivot tables, Data modeling, Business analysis formulas."
+  },
+  {
     id: "eyouth-bus-1",
-    title: "EYouth Business", 
-    subtitle: "Business Administration Certificate", 
-    issuer: "EYouth", 
+    title: "EYouth Business",
+    subtitle: "Business Administration Certificate",
+    issuer: "EYouth",
     date: "2025",
     category: "Business",
-    file: "certificate-eyouth-business.pdf" 
+    file: "certificate-eyouth-business.pdf"
   },
-  { 
+  {
     id: "eyouth-bus-2",
-    title: "EYouth Business Level 2", 
-    issuer: "EYouth", 
+    title: "EYouth Business Level 2",
+    issuer: "EYouth",
     date: "2025",
     category: "Business",
-    file: "certificate-eyouth-business-2.pdf" 
+    file: "certificate-eyouth-business-2.pdf"
   },
+  {
+    id: "eyouth-bus-3",
+    title: "EYouth Business Level 3",
+    issuer: "EYouth",
+    date: "2025",
+    category: "Business",
+    file: "certificate-eyouth-business-3.pdf"
+  },
+  {
+    id: "eyouth-bus-4",
+    title: "EYouth Business Level 4",
+    issuer: "EYouth",
+    date: "2025",
+    category: "Business",
+    file: "certificate-eyouth-business-4.pdf"
+  },
+  {
+    id: "eyouth-bus-landscape",
+    title: "EYouth Business Landscape",
+    issuer: "EYouth",
+    date: "2025",
+    category: "Business",
+    file: "certificate-eyouth-business-landscape.pdf"
+  },
+  {
+    id: "course-cert-en",
+    title: "Course Certificate (English)",
+    issuer: "Educational Platform",
+    date: "2025",
+    category: "Other",
+    file: "course-certificate-en.pdf"
+  },
+  {
+    id: "course-cert-ar",
+    title: "Training Course Certificate (Arabic)",
+    issuer: "Educational Platform",
+    date: "2025",
+    category: "Other",
+    file: "course-certificate-ar.pdf"
+  }
 ];
 
 const categories = ["All", "AI & ML", "Web Development", "Business", "Other"];
