@@ -1,18 +1,16 @@
-import { lazy, Suspense } from "react";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { Stats } from "@/components/Stats";
 import { CursorGlow } from "@/components/CursorGlow";
 import SeoHead, { SITE_URL } from "@/components/SEO";
 
-// Lazy load below-the-fold components to improve initial load performance
-const About = lazy(() => import("@/components/About").then(m => ({ default: m.About })));
-const Projects = lazy(() => import("@/components/Projects").then(m => ({ default: m.Projects })));
-const Stack = lazy(() => import("@/components/Stack").then(m => ({ default: m.Stack })));
-const Experience = lazy(() => import("@/components/Experience").then(m => ({ default: m.Experience })));
-const Contact = lazy(() => import("@/components/Contact").then(m => ({ default: m.Contact })));
-const Services = lazy(() => import("@/components/Services").then(m => ({ default: m.Services })));
-const Certificates = lazy(() => import("@/components/Certificates").then(m => ({ default: m.Certificates })));
+import { About } from "@/components/About";
+import { Projects } from "@/components/Projects";
+import { Stack } from "@/components/Stack";
+import { Experience } from "@/components/Experience";
+import { Contact } from "@/components/Contact";
+import { Services } from "@/components/Services";
+import { Certificates } from "@/components/Certificates";
 
 const Index = () => {
   const structuredData = {
@@ -61,15 +59,13 @@ const Index = () => {
         <Hero />
         <Stats />
         
-        <Suspense fallback={<div className="h-[20vh]" aria-hidden="true" />}>
-          <About />
-          <Stack />
-          <Services />
-          <Projects />
-          <Experience />
-          <Certificates />
-          <Contact />
-        </Suspense>
+        <About />
+        <Stack />
+        <Services />
+        <Projects />
+        <Experience />
+        <Certificates />
+        <Contact />
       </main>
     </>
   );
