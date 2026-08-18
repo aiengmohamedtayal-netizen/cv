@@ -94,7 +94,10 @@ export function InteractiveRobotSpline({ scene, className }: InteractiveRobotSpl
         />
         
         {/* Overlay element to obscure the Spline watermark */}
-        <div className="absolute bottom-4 right-4 z-50 w-40 h-10 flex items-center justify-center bg-background/80 backdrop-blur-md border border-white/10 rounded-full shadow-lg pointer-events-auto hover:bg-background/90 transition-all cursor-pointer">
+        <div
+          aria-hidden="true"
+          className="absolute bottom-4 right-4 z-50 w-40 h-10 flex items-center justify-center bg-background/80 backdrop-blur-md border border-white/10 rounded-full shadow-lg pointer-events-none"
+        >
           <svg 
             className="w-5 h-5 text-primary" 
             fill="none" 

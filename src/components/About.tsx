@@ -1,114 +1,59 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { Brain, Code2, Rocket, Zap } from "lucide-react";
+import { Brain, Code2, Rocket } from "lucide-react";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 export const About = () => {
+  const { t } = useLocale();
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section id="about" className="relative py-28 overflow-hidden">
+    <section id="about" className="relative overflow-hidden py-28">
       <div className="container max-w-5xl">
-        <div className="grid lg:grid-cols-[1fr_1.1fr] gap-16 items-start relative">
-          
-          {/* Left Column: Storytelling */}
+        <div className="relative grid items-start gap-16 lg:grid-cols-[1fr_1.1fr]">
           <div className="relative z-10">
-            <div className="section-eyebrow mb-6">The Journey</div>
-            <h2 className="font-display text-fluid-h2 font-bold mb-8 text-foreground">
-              Engineering with <br />
-              <span className="text-gradient">precision</span> & <span className="text-gradient">purpose</span>.
+            <div className="section-eyebrow mb-6">{t.about.eyebrow}</div>
+            <h2 className="mb-8 font-display text-fluid-h2 font-bold text-foreground">
+              {t.about.headingLead} <br />
+              <span className="text-gradient">{t.about.highlightOne}</span> {t.about.conjunction} <span className="text-gradient">{t.about.highlightTwo}</span>.
             </h2>
-            
-            <div className="space-y-6 text-lg text-muted-foreground leading-relaxed font-light">
-              <motion.p
-                initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7 }}
-                className="text-editorial text-[1.05rem]"
-              >
-                <strong className="text-foreground font-medium font-display tracking-tight">I architect intelligent systems from the ground up.</strong> Formally trained in Artificial Intelligence & Computer Science at Delta University, I bridge the gap between complex machine learning research and scalable, production-grade applications.
-              </motion.p>
-              
-              <motion.p
-                initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.1 }}
-                className="text-editorial text-[1.05rem]"
-              >
-                My engineering philosophy is rooted in deployment reality. A sophisticated model is useless if it's bottlenecked by poor infrastructure. That's why I engineer the entire stack—ensuring that intelligent features are delivered through hyper-fast, secure, and intuitive frontend architectures.
-              </motion.p>
-              
-              <motion.p
-                initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.2 }}
-                className="text-editorial text-[1.05rem]"
-              >
-                Whether I'm optimizing a neural network's inference latency or designing a GPU-accelerated React interface, I treat software engineering as an exact science. The goal is never just to make it work; it's to make it resilient, scalable, and world-class.
-              </motion.p>
+
+            <div className="space-y-6 text-lg font-light leading-relaxed text-muted-foreground">
+              {t.about.paragraphs.map((paragraph, index) => (
+                <motion.p
+                  key={paragraph}
+                  initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: index * 0.1 }}
+                  className="text-editorial text-[1.05rem]"
+                >
+                  {index === 0 ? <strong className="font-display font-medium tracking-tight text-foreground">{paragraph.split(".")[0]}.</strong> : null}
+                  {index === 0 ? paragraph.slice(paragraph.indexOf(".") + 1) : paragraph}
+                </motion.p>
+              ))}
             </div>
           </div>
 
-          {/* Right Column: Philosophy Blocks */}
-          <div className="grid gap-6 relative z-10 perspective-1000 mt-10 lg:mt-0">
-            {/* Background ambient glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[120%] w-[120%] bg-gradient-to-br from-primary/10 via-violet/5 to-transparent rounded-full blur-[100px] -z-10" />
-
-            <motion.div
-              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="glass-strong rounded-3xl p-8 hover:-translate-y-1 hover:border-primary/30 transition-transform duration-500 group border border-foreground/5"
-            >
-              <div className="flex items-center gap-4 mb-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary-glow group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-300">
-                  <Brain size={24} />
+          <div className="relative z-10 mt-10 grid gap-6 perspective-1000 lg:mt-0">
+            <div className="absolute left-1/2 top-1/2 -z-10 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-primary/10 via-violet/5 to-transparent blur-[100px]" />
+            {[Brain, Code2, Rocket].map((Icon, index) => (
+              <motion.div
+                key={t.about.cards[index].title}
+                initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: index * 0.15 }}
+                className={`glass-strong rounded-3xl border border-foreground/5 p-8 transition-transform duration-500 hover:-translate-y-1 hover:border-primary/30 ${index === 1 ? "md:ml-12" : ""}`}
+              >
+                <div className="mb-4 flex items-center gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary-glow transition-all duration-300 group-hover:scale-110">
+                    <Icon size={24} />
+                  </div>
+                  <h3 className="font-display text-xl font-bold">{t.about.cards[index].title}</h3>
                 </div>
-                <h3 className="font-display text-xl font-bold">AI Vision</h3>
-              </div>
-              <p className="text-editorial text-[1.05rem]">
-                Transforming complex data into smart decisions. I believe AI should be invisible, acting as an intuitive extension of the user experience rather than a novelty.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.15 }}
-              className="glass-strong rounded-3xl p-8 hover:-translate-y-1 hover:border-violet/30 transition-transform duration-500 group border border-foreground/5 md:ml-12"
-            >
-              <div className="flex items-center gap-4 mb-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-violet/10 text-violet group-hover:bg-violet/20 group-hover:scale-110 transition-all duration-300">
-                  <Code2 size={24} />
-                </div>
-                <h3 className="font-display text-xl font-bold">Architecture</h3>
-              </div>
-              <p className="text-editorial text-[1.05rem]">
-                Building the scaffolding that makes AI usable. Clean code, strict typings, and component-driven design ensure that the foundation never crumbles under scale.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="glass-strong rounded-3xl p-8 hover:-translate-y-1 hover:border-emerald-500/30 transition-transform duration-500 group border border-foreground/5"
-            >
-              <div className="flex items-center gap-4 mb-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 group-hover:bg-emerald-500/20 group-hover:scale-110 transition-all duration-300">
-                  <Rocket size={24} />
-                </div>
-                <h3 className="font-display text-xl font-bold">Delivery</h3>
-              </div>
-              <p className="text-editorial text-[1.05rem]">
-                Shipping products that are ready for the real world. Performance, SEO, and accessibility aren't afterthoughts—they are embedded in my delivery process from day one.
-              </p>
-            </motion.div>
-
+                <p className="text-editorial text-[1.05rem]">{t.about.cards[index].text}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>

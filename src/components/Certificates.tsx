@@ -1,6 +1,7 @@
-import { useState, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Award, Download, Eye, Link, Search, X, ShieldCheck, Calendar, Filter } from "lucide-react";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 type Certificate = {
   id: string;
@@ -343,13 +344,40 @@ const certificates: Certificate[] = [
   }
 ];
 
-const categories = ["All", "AI & ML", "Web Development", "Business", "Other"];
+const categories = ["All", "AI & ML", "Web Development", "Business", "Other"] as const;
+const categoryKeys = { "All": "all", "AI & ML": "ai", "Web Development": "web", "Business": "business", "Other": "other" } as const;
 
 export const Certificates = () => {
+  const { t } = useLocale();
   const shouldReduceMotion = useReducedMotion();
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [previewCert, setPreviewCert] = useState<Certificate | null>(null);
+  const previewDialogRef = useRef<HTMLDivElement>(null);
+  const previewTriggerRef = useRef<HTMLButtonElement | null>(null);
+
+  const closePreview = useCallback(() => {
+    const trigger = previewTriggerRef.current;
+    setPreviewCert(null);
+    if (trigger && document.contains(trigger)) {
+      trigger.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!previewCert) return;
+
+    previewDialogRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closePreview();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [closePreview, previewCert]);
 
   const filteredCerts = useMemo(() => {
     return certificates.filter((c) => {
@@ -366,11 +394,9 @@ export const Certificates = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
           <div className="max-w-2xl">
-            <div className="section-eyebrow">Achievements</div>
-            <h2 className="mt-4 font-display text-fluid-h2 font-bold text-foreground">Verified <span className="text-gradient">Credentials</span>.</h2>
-            <p className="mt-4 text-editorial text-lg">
-              Official certifications, degrees, and technical achievements.
-            </p>
+            <div className="section-eyebrow">{t.certificates.eyebrow}</div>
+            <h2 className="mt-4 font-display text-fluid-h2 font-bold text-foreground">{t.certificates.headingLead} <span className="text-gradient">{t.certificates.headingAccent}</span>.</h2>
+            <p className="mt-4 text-editorial text-lg">{t.certificates.description}</p>
           </div>
 
           <div className="w-full md:w-auto flex flex-col sm:flex-row gap-4 items-center">
@@ -378,7 +404,7 @@ export const Certificates = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
               <input 
                 type="text" 
-                placeholder="Search certificates..."
+                placeholder={t.certificates.searchPlaceholder}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full bg-background/50 border border-foreground/10 rounded-full pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow"
@@ -396,7 +422,7 @@ export const Certificates = () => {
                       activeCategory === cat ? "bg-foreground/10 text-foreground" : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
-                    {cat}
+                    {t.certificates.categories[categoryKeys[cat]]}
                   </button>
                 ))}
               </div>
@@ -413,7 +439,7 @@ export const Certificates = () => {
                 className="col-span-full flex flex-col items-center justify-center py-20 text-muted-foreground"
               >
                 <Search size={48} className="opacity-20 mb-4" />
-                <p>No certificates found matching your criteria.</p>
+                <p>{t.certificates.noResults}</p>
               </motion.div>
             ) : (
               filteredCerts.map((cert, i) => (
@@ -435,9 +461,12 @@ export const Certificates = () => {
                     
                     <div className="flex gap-2">
                       <button 
-                        onClick={() => setPreviewCert(cert)}
+                        onClick={(event) => {
+                          previewTriggerRef.current = event.currentTarget;
+                          setPreviewCert(cert);
+                        }}
                         className="flex h-9 w-9 items-center justify-center rounded-full bg-background/50 border border-border/50 text-muted-foreground hover:text-foreground hover:bg-primary/20 transition-colors focus-visible:ring-2 focus-visible:ring-primary outline-none"
-                        aria-label={`Preview ${cert.title}`}
+                        aria-label={`${t.certificates.preview}: ${cert.title}`}
                       >
                         <Eye size={14} />
                       </button>
@@ -446,7 +475,7 @@ export const Certificates = () => {
                           href={`/${cert.file}`} 
                           download={cert.file}
                           className="flex h-9 w-9 items-center justify-center rounded-full bg-background/50 border border-border/50 text-muted-foreground hover:text-foreground hover:bg-primary/20 transition-colors focus-visible:ring-2 focus-visible:ring-primary outline-none"
-                          aria-label={`Download ${cert.title}`}
+                          aria-label={`${t.certificates.download}: ${cert.title}`}
                         >
                           <Download size={14} />
                         </a>
@@ -458,16 +487,16 @@ export const Certificates = () => {
                   
                   <div className="flex items-center gap-2 mb-4">
                     <span className="text-xs font-mono px-2 py-0.5 rounded-md bg-foreground/5 border border-foreground/10 text-muted-foreground">
-                      {cert.category}
+                      {t.certificates.categories[categoryKeys[cert.category]]}
                     </span>
                     {cert.credentialId && (
                       <span className="flex items-center gap-1 text-[10px] text-emerald-500/80 font-medium">
-                        <ShieldCheck size={12} /> Verified
+                        <ShieldCheck size={12} /> {t.certificates.verified}
                       </span>
                     )}
                   </div>
                   
-                  <p className="text-editorial text-[1.05rem] mb-6 flex-grow">{cert.description || cert.subtitle || "Official completion certificate."}</p>
+                  <p className="text-editorial text-[1.05rem] mb-6 flex-grow">{cert.description || cert.subtitle || t.certificates.officialCompletion}</p>
                   
                   <div className="pt-4 border-t border-border/50 flex flex-wrap justify-between items-end gap-3 mt-auto">
                     <div className="flex items-center gap-1.5 text-xs font-mono text-primary-glow font-medium">
@@ -492,13 +521,19 @@ export const Certificates = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setPreviewCert(null)}
+              onClick={closePreview}
               className="fixed inset-0 z-50 bg-background/90 backdrop-blur-md"
+              aria-hidden="true"
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              ref={previewDialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="certificate-preview-title"
+              tabIndex={-1}
               className="fixed inset-x-4 top-1/2 -translate-y-1/2 md:inset-auto md:left-1/2 md:-translate-x-1/2 z-50 w-full max-w-2xl glass-strong shadow-2xl rounded-3xl overflow-hidden border border-primary/20"
             >
               {/* Modal Header */}
@@ -508,12 +543,13 @@ export const Certificates = () => {
                     <Award size={18} />
                   </div>
                   <div>
-                    <h3 className="font-display font-bold text-lg">{previewCert.title}</h3>
+                    <h3 id="certificate-preview-title" className="font-display font-bold text-lg">{previewCert.title}</h3>
                     <div className="text-xs text-muted-foreground">{previewCert.issuer}</div>
                   </div>
                 </div>
                 <button 
-                  onClick={() => setPreviewCert(null)}
+                  onClick={closePreview}
+                  aria-label={t.certificates.closePreview}
                   className="p-2 rounded-full hover:bg-foreground/10 transition-colors focus-visible:ring-2 focus-visible:ring-primary outline-none"
                 >
                   <X size={20} />
@@ -528,17 +564,17 @@ export const Certificates = () => {
                   <div className="mx-auto w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary-glow mb-6">
                     <ShieldCheck size={32} />
                   </div>
-                  <h4 className="font-display text-2xl font-bold mb-2">Certificate of Completion</h4>
-                  <p className="text-editorial text-[1.05rem] mb-6">This certifies the successful completion of the requirements for</p>
+                  <h4 className="font-display text-2xl font-bold mb-2">{t.certificates.certificateOfCompletion}</h4>
+                  <p className="text-editorial text-[1.05rem] mb-6">{t.certificates.completionIntro}</p>
                   <div className="font-bold text-lg text-primary-glow mb-6">{previewCert.title}</div>
                   
                   <div className="grid grid-cols-2 gap-4 text-xs font-mono text-muted-foreground border-t border-foreground/10 pt-6">
                     <div>
-                      <span className="block opacity-50 mb-1">ISSUER</span>
+                      <span className="block opacity-50 mb-1">{t.certificates.issuer}</span>
                       {previewCert.issuer}
                     </div>
                     <div>
-                      <span className="block opacity-50 mb-1">DATE</span>
+                      <span className="block opacity-50 mb-1">{t.certificates.date}</span>
                       {previewCert.date}
                     </div>
                   </div>
@@ -548,11 +584,11 @@ export const Certificates = () => {
               {/* Modal Footer */}
               <div className="p-6 bg-foreground/[0.02] border-t border-foreground/5 flex justify-between items-center">
                 <div className="text-xs font-mono text-muted-foreground">
-                  {previewCert.credentialId ? `ID: ${previewCert.credentialId}` : "Standard Certificate"}
+                  {previewCert.credentialId ? `${t.certificates.credentialId}: ${previewCert.credentialId}` : t.certificates.standardCertificate}
                 </div>
                 {previewCert.file && (
                   <a href={`/${previewCert.file}`} download className="btn-magnetic text-sm px-4 py-2">
-                    Download Original <Download size={14} className="ml-2" />
+                    {t.certificates.downloadOriginal} <Download size={14} className="ms-2" />
                   </a>
                 )}
               </div>

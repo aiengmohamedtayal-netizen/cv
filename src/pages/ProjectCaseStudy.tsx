@@ -3,248 +3,112 @@ import { useParams, Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, CheckCircle2, ChevronRight, Github, Globe } from "lucide-react";
 import { projectsData } from "@/data/projects";
+import { getLocalizedProject } from "@/data/projectContent";
 import { CursorGlow } from "@/components/CursorGlow";
 import SeoHead, { SITE_URL, DEFAULT_OG_IMAGE } from "@/components/SEO";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 export const ProjectCaseStudy = () => {
   const { id } = useParams<{ id: string }>();
-  const project = projectsData.find((p) => p.id === id);
+  const { locale, t, localizedPath } = useLocale();
+  const sourceProject = projectsData.find((project) => project.id === id);
+  const project = sourceProject ? getLocalizedProject(sourceProject, locale) : undefined;
 
-  // Scroll to top on mount
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [id]);
+  useEffect(() => { window.scrollTo(0, 0); }, [id]);
 
   if (!project) {
     return (
       <>
-        <SeoHead
-          title="Project Not Found | Mohamed Tayal"
-          description="The requested project case study could not be found. Return to Mohamed Tayal's portfolio to explore available work."
-          path="/404"
-          noindex
-        />
-        <Navigate to="/404" replace />
+        <SeoHead title={t.caseStudy.projectNotFoundTitle} description={t.caseStudy.projectNotFoundDescription} path="/404" noindex />
+        <Navigate to={localizedPath("/404")} replace />
       </>
     );
   }
 
   const { caseStudy } = project;
   const projectPath = `/project/${project.id}`;
-  const projectUrl = `${SITE_URL}${projectPath}`;
-  const pageTitle = `${project.title} Case Study | Mohamed Tayal`;
-  const pageDescription = `${project.desc} Explore the architecture, technologies, results, and future improvements behind this project.`;
+  const projectUrl = `${SITE_URL}${localizedPath(projectPath)}`;
+  const pageTitle = `${project.title} ${t.caseStudy.caseStudySuffix}`;
+  const pageDescription = `${project.desc} ${t.caseStudy.descriptionSuffix}`;
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": "CreativeWork",
-        "@id": `${projectUrl}#case-study`,
-        name: project.title,
-        description: project.desc,
-        url: projectUrl,
-        image: DEFAULT_OG_IMAGE,
-        author: {
-          "@type": "Person",
-          name: "Mohamed Tayal",
-          url: SITE_URL,
-        },
-        about: project.tag,
-        keywords: project.tech,
-        mainEntityOfPage: projectUrl,
-      },
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
-          { "@type": "ListItem", position: 2, name: "Projects", item: `${SITE_URL}/#projects` },
-          { "@type": "ListItem", position: 3, name: project.title, item: projectUrl },
-        ],
-      },
+      { "@type": "CreativeWork", "@id": `${projectUrl}#case-study`, name: project.title, description: project.desc, url: projectUrl, image: DEFAULT_OG_IMAGE, author: { "@type": "Person", name: "Mohamed Tayal", url: SITE_URL }, about: project.tag, keywords: project.tech, mainEntityOfPage: projectUrl },
+      { "@type": "BreadcrumbList", itemListElement: [
+        { "@type": "ListItem", position: 1, name: t.nav.home, item: `${SITE_URL}${localizedPath("/")}` },
+        { "@type": "ListItem", position: 2, name: t.nav.projects, item: `${SITE_URL}${localizedPath("/#projects")}` },
+        { "@type": "ListItem", position: 3, name: project.title, item: projectUrl },
+      ] },
     ],
   };
+  const chevronClass = locale === "ar" ? "rotate-180" : "";
 
   return (
     <>
-      <SeoHead
-        title={pageTitle}
-        description={pageDescription}
-        path={projectPath}
-        image={DEFAULT_OG_IMAGE}
-        type="article"
-        jsonLd={structuredData}
-      />
+      <SeoHead title={pageTitle} description={pageDescription} path={projectPath} image={DEFAULT_OG_IMAGE} type="article" jsonLd={structuredData} />
       <main className="relative min-h-screen pb-32">
-      <CursorGlow />
-      
-      {/* Dynamic Background */}
-      <div className="fixed inset-0 -z-10 bg-background pointer-events-none" />
-      <div className={`fixed inset-0 -z-10 opacity-20 blur-[150px] bg-gradient-to-br ${project.gradient} pointer-events-none`} />
-      <div className="fixed inset-0 -z-10 grid-overlay pointer-events-none" />
+        <CursorGlow />
+        <div className="pointer-events-none fixed inset-0 -z-10 bg-background" />
+        <div className={`pointer-events-none fixed inset-0 -z-10 bg-gradient-to-br ${project.gradient} opacity-20 blur-[150px]`} />
+        <div className="pointer-events-none fixed inset-0 -z-10 grid-overlay" />
 
-      {/* Simplified Navigation for Case Study */}
-      <nav className="fixed top-0 inset-x-0 z-50 flex justify-center px-4 pt-4 pointer-events-none">
-        <div className="flex items-center gap-2 rounded-full glass-strong px-3 py-2 pointer-events-auto shadow-[0_10px_40px_-10px_hsl(230_50%_0%/0.5)]">
-          <Link to="/" className="flex items-center gap-2 pl-3 pr-4 py-1.5 rounded-full hover:bg-foreground/5 transition-colors group focus-visible:ring-2 focus-visible:ring-primary outline-none">
-            <ArrowLeft size={16} className="text-muted-foreground group-hover:-translate-x-1 transition-transform" />
-            <span className="text-sm font-medium">Back to Portfolio</span>
-          </Link>
-        </div>
-      </nav>
-
-      <div className="container max-w-4xl pt-32">
-        <nav aria-label="Breadcrumb" className="mb-10 text-sm text-muted-foreground">
-          <ol className="flex flex-wrap items-center gap-2">
-            <li><Link to="/" className="hover:text-foreground transition-colors">Home</Link></li>
-            <li aria-hidden="true"><ChevronRight size={14} /></li>
-            <li><Link to="/#projects" className="hover:text-foreground transition-colors">Projects</Link></li>
-            <li aria-hidden="true"><ChevronRight size={14} /></li>
-            <li aria-current="page" className="text-foreground">{project.title}</li>
-          </ol>
+        <nav className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4">
+          <div className="pointer-events-auto flex items-center gap-2 rounded-full glass-strong px-3 py-2 shadow-[0_10px_40px_-10px_hsl(230_50%_0%/0.5)]">
+            <Link to={localizedPath("/")} className="group flex items-center gap-2 rounded-full py-1.5 pl-3 pr-4 outline-none transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-primary">
+              <ArrowLeft size={16} className={`text-muted-foreground transition-transform group-hover:-translate-x-1 ${chevronClass}`} />
+              <span className="text-sm font-medium">{t.caseStudy.backToPortfolio}</span>
+            </Link>
+          </div>
         </nav>
 
-        {/* Header Section */}
-        <header className="mb-20">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex items-center gap-3 text-sm font-mono text-primary-glow mb-6">
-              <span>Projects</span>
-              <ChevronRight size={14} className="opacity-50" />
-              <span>{project.tag}</span>
-            </div>
-            
-            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight mb-8">
-              {project.title}
-            </h1>
-            
-            <p className="text-editorial text-xl md:text-2xl">
-              {project.desc}
-            </p>
+        <div className="container max-w-4xl pt-32">
+          <nav aria-label={t.caseStudy.breadcrumb} className="mb-10 text-sm text-muted-foreground">
+            <ol className="flex flex-wrap items-center gap-2">
+              <li><Link to={localizedPath("/")} className="transition-colors hover:text-foreground">{t.nav.home}</Link></li>
+              <li aria-hidden="true"><ChevronRight size={14} className={chevronClass} /></li>
+              <li><Link to={localizedPath("/#projects")} className="transition-colors hover:text-foreground">{t.nav.projects}</Link></li>
+              <li aria-hidden="true"><ChevronRight size={14} className={chevronClass} /></li>
+              <li aria-current="page" className="text-foreground">{project.title}</li>
+            </ol>
+          </nav>
 
-            <div className="flex flex-wrap items-center gap-4 mt-10">
-              {project.demoUrl && (
-                <a href={project.demoUrl} target="_blank" rel="noreferrer" className="btn-magnetic focus-visible:ring-2 focus-visible:ring-primary outline-none">
-                  Live Demo <Globe size={16} className="ml-2" />
-                </a>
-              )}
-              {project.githubUrl && (
-                <a href={project.githubUrl} target="_blank" rel="noreferrer" className="btn-ghost-glow focus-visible:ring-2 focus-visible:ring-primary outline-none">
-                  <Github size={16} className="mr-2" /> View Source
-                </a>
-              )}
-            </div>
+          <header className="mb-20">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+              <div className="mb-6 flex items-center gap-3 font-mono text-sm text-primary-glow"><span>{t.nav.projects}</span><ChevronRight size={14} className={`opacity-50 ${chevronClass}`} /><span>{project.tag}</span></div>
+              <h1 className="mb-8 font-display text-5xl font-bold leading-[1.1] tracking-tight md:text-6xl lg:text-7xl">{project.title}</h1>
+              <p className="text-editorial text-xl md:text-2xl">{project.desc}</p>
+              <div className="mt-10 flex flex-wrap items-center gap-4">
+                {project.demoUrl && <a href={project.demoUrl} target="_blank" rel="noreferrer" className="btn-magnetic outline-none focus-visible:ring-2 focus-visible:ring-primary">{t.caseStudy.liveDemo} <Globe size={16} className="ms-2" /></a>}
+                {project.githubUrl && <a href={project.githubUrl} target="_blank" rel="noreferrer" className="btn-ghost-glow outline-none focus-visible:ring-2 focus-visible:ring-primary"><Github size={16} className="me-2" />{t.caseStudy.viewSource}</a>}
+              </div>
+            </motion.div>
+          </header>
+
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 0.2 }} className="group relative mb-24 flex aspect-video w-full items-center justify-center overflow-hidden rounded-3xl border border-foreground/10 bg-black/40 glass-strong shadow-2xl">
+            <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-50 transition-opacity duration-700 group-hover:opacity-70`} />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+            <div className="relative z-10 px-6 text-center"><p className="font-display text-4xl font-bold uppercase tracking-widest opacity-30 mix-blend-overlay" aria-hidden="true">{t.caseStudy.architecturePlaceholder}</p></div>
           </motion.div>
-        </header>
 
-        {/* Abstract Mockup / Hero Image Placeholder */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }} 
-          animate={{ opacity: 1, scale: 1 }} 
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative aspect-video w-full rounded-3xl overflow-hidden glass-strong border border-foreground/10 mb-24 shadow-2xl flex items-center justify-center bg-black/40 group"
-        >
-          {/* We use abstract tailwind gradients as premium placeholders since we don't have actual images */}
-          <div className={`absolute inset-0 bg-gradient-to-br opacity-50 group-hover:opacity-70 transition-opacity duration-700 ${project.gradient}`} />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
-          
-          <div className="relative z-10 text-center px-6">
-            <p className="font-display text-4xl font-bold opacity-30 tracking-widest uppercase mix-blend-overlay" aria-hidden="true">System Architecture</p>
+          <div className="grid gap-24">
+            <section className="grid gap-12 md:grid-cols-2">
+              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}><div className="section-eyebrow mb-4">{t.caseStudy.overview}</div><p className="mb-6 text-editorial text-lg">{caseStudy.overview}</p><h2 className="mb-4 font-display text-2xl font-semibold">{t.caseStudy.challenge}</h2><p className="text-editorial text-lg">{caseStudy.problem}</p></motion.div>
+              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ delay: 0.1 }}><div className="section-eyebrow mb-4">{t.caseStudy.approach}</div><h2 className="mb-4 font-display text-2xl font-semibold">{t.caseStudy.solution}</h2><p className="text-editorial text-lg">{caseStudy.solution}</p></motion.div>
+            </section>
+
+            <section>
+              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}><div className="section-eyebrow mb-4">{t.caseStudy.engineering}</div><h2 className="mb-10 font-display text-3xl font-semibold">{t.caseStudy.architecture}</h2></motion.div>
+              <div className="grid gap-6 sm:grid-cols-3">{caseStudy.architecture.map((item, index) => <motion.div key={index} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ delay: index * 0.1 }} className="rounded-2xl glass p-6 transition-colors hover:border-primary/30"><div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary-glow"><item.icon size={20} /></div><h4 className="mb-2 font-display text-lg font-semibold">{item.title}</h4><p className="text-editorial text-[1.05rem]">{item.description}</p></motion.div>)}</div>
+            </section>
+
+            <section className="grid gap-12 md:grid-cols-2">
+              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}><div className="section-eyebrow mb-4">{t.caseStudy.stack}</div><h2 className="mb-6 font-display text-3xl font-semibold">{t.caseStudy.technologies}</h2><div className="flex flex-wrap gap-3">{project.tech.map((technology) => <span key={technology} className="chip border-foreground/10 px-4 py-2 text-sm">{technology}</span>)}</div></motion.div>
+              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ delay: 0.1 }}><div className="section-eyebrow mb-4">{t.caseStudy.results}</div><h2 className="mb-6 font-display text-3xl font-semibold">{t.caseStudy.performance}</h2><div className="space-y-4">{caseStudy.performance.map((metric, index) => <div key={index} className="flex items-center justify-between rounded-xl glass p-4"><span className="font-medium text-muted-foreground">{metric.metric}</span><span className="font-mono font-bold text-primary-glow">{metric.value}</span></div>)}</div></motion.div>
+            </section>
+
+            <section><motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}><div className="section-eyebrow mb-4">{t.caseStudy.nextSteps}</div><h2 className="mb-8 font-display text-3xl font-semibold">{t.caseStudy.improvements}</h2><div className="max-w-3xl space-y-4">{caseStudy.future.map((item, index) => <div key={index} className="flex items-start gap-4 rounded-2xl glass p-5 transition-colors hover:border-primary/20"><CheckCircle2 size={20} className="mt-0.5 shrink-0 text-primary" /><p className="text-editorial text-[1.05rem]">{item}</p></div>)}</div></motion.div></section>
           </div>
-        </motion.div>
-
-        {/* Content Sections */}
-        <div className="grid gap-24">
-          
-          {/* Overview & Problem */}
-          <section className="grid md:grid-cols-2 gap-12">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}>
-              <div className="section-eyebrow mb-4">01. Overview</div>
-              <h2 className="text-2xl font-display font-semibold mb-4">The Challenge</h2>
-              <p className="text-editorial text-lg">{caseStudy.problem}</p>
-            </motion.div>
-            
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ delay: 0.1 }}>
-              <div className="section-eyebrow mb-4">02. Approach</div>
-              <h2 className="text-2xl font-display font-semibold mb-4">The Solution</h2>
-              <p className="text-editorial text-lg">{caseStudy.solution}</p>
-            </motion.div>
-          </section>
-
-          {/* Architecture */}
-          <section>
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}>
-              <div className="section-eyebrow mb-4">03. Engineering</div>
-              <h2 className="text-3xl font-display font-semibold mb-10">System Architecture</h2>
-            </motion.div>
-            
-            <div className="grid sm:grid-cols-3 gap-6">
-              {caseStudy.architecture.map((item, idx) => (
-                <motion.div 
-                  key={idx}
-                  initial={{ opacity: 0, y: 20 }} 
-                  whileInView={{ opacity: 1, y: 0 }} 
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ delay: idx * 0.1 }}
-                  className="glass rounded-2xl p-6 hover:border-primary/30 transition-colors"
-                >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary-glow mb-5">
-                    <item.icon size={20} />
-                  </div>
-                  <h4 className="font-display font-semibold text-lg mb-2">{item.title}</h4>
-                  <p className="text-editorial text-[1.05rem]">{item.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </section>
-
-          {/* Tech Stack & Performance */}
-          <section className="grid md:grid-cols-2 gap-12">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}>
-              <div className="section-eyebrow mb-4">04. Stack</div>
-              <h2 className="text-3xl font-display font-semibold mb-6">Technologies Used</h2>
-              <div className="flex flex-wrap gap-3">
-                {project.tech.map((t) => (
-                  <span key={t} className="chip text-sm py-2 px-4 border-foreground/10">{t}</span>
-                ))}
-              </div>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ delay: 0.1 }}>
-              <div className="section-eyebrow mb-4">05. Results</div>
-              <h2 className="text-3xl font-display font-semibold mb-6">Performance Metrics</h2>
-              <div className="space-y-4">
-                {caseStudy.performance.map((metric, idx) => (
-                  <div key={idx} className="flex justify-between items-center p-4 rounded-xl glass">
-                    <span className="font-medium text-muted-foreground">{metric.metric}</span>
-                    <span className="font-mono text-primary-glow font-bold">{metric.value}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </section>
-
-          {/* Future Work */}
-          <section>
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}>
-              <div className="section-eyebrow mb-4">06. Next Steps</div>
-              <h2 className="text-3xl font-display font-semibold mb-8">Future Improvements</h2>
-              
-              <div className="space-y-4 max-w-3xl">
-                {caseStudy.future.map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-4 p-5 rounded-2xl glass hover:border-primary/20 transition-colors">
-                    <CheckCircle2 size={20} className="text-primary shrink-0 mt-0.5" />
-                    <p className="text-editorial text-[1.05rem]">{item}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </section>
-
         </div>
-      </div>
       </main>
     </>
   );

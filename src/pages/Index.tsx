@@ -3,6 +3,7 @@ import { Hero } from "@/components/Hero";
 import { Stats } from "@/components/Stats";
 import { CursorGlow } from "@/components/CursorGlow";
 import SeoHead, { SITE_URL } from "@/components/SEO";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 import { About } from "@/components/About";
 import { Projects } from "@/components/Projects";
@@ -13,12 +14,13 @@ import { Services } from "@/components/Services";
 import { Certificates } from "@/components/Certificates";
 
 const Index = () => {
+  const { locale, t } = useLocale();
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Person",
     "@id": `${SITE_URL}#person`,
     name: "Mohamed Tayal",
-    jobTitle: "AI Engineer & Full Stack Developer",
+    jobTitle: t.hero.headingPrimary + " " + t.hero.headingAccent,
     url: SITE_URL,
     image: `${SITE_URL}/images/profile.jpg`,
     sameAs: [
@@ -42,16 +44,16 @@ const Index = () => {
   return (
     <>
       <SeoHead
-        title="Mohamed Tayal | AI Engineer & Full Stack Developer"
-        description="Mohamed Tayal is an AI Engineer and Full Stack Developer building machine learning systems, intelligent web products, and production-ready software."
-        path="/"
+        title={t.metadata.homeTitle}
+        description={t.metadata.homeDescription}
+        path={locale === "ar" ? "/ar" : "/"}
         jsonLd={structuredData}
       />
       <a 
         href="#main" 
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-background focus:text-foreground focus:border focus:border-primary focus:rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
       >
-        Skip to main content
+        {t.common.skipToContent}
       </a>
       <CursorGlow />
       <Nav />
