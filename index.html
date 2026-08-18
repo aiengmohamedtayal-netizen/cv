@@ -59,7 +59,38 @@
   </head>
   <body class="bg-background text-foreground overflow-x-hidden selection:bg-primary/30 selection:text-primary-glow">
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root">
+      <!--
+        Crawlable fallback content for search engines and no-JavaScript clients.
+        React replaces this subtree after boot, so it does not create duplicate UI.
+      -->
+      <main id="seo-fallback" aria-labelledby="seo-fallback-title">
+        <header>
+          <p>Mohamed Tayal</p>
+          <h1 id="seo-fallback-title">AI Engineer &amp; Full Stack Developer</h1>
+          <p>
+            Mohamed Tayal is an AI Engineer and Full Stack Developer building
+            machine learning systems, intelligent web products, and production-ready software.
+          </p>
+        </header>
+        <section aria-labelledby="seo-fallback-projects">
+          <h2 id="seo-fallback-projects">Selected projects</h2>
+          <ul>
+            <li><a href="/project/image-classification">Image Classification System</a> — TensorFlow-based image classification workflow.</li>
+            <li><a href="/project/ecommerce-store">E-Commerce Store</a> — Full-stack storefront architecture.</li>
+            <li><a href="/project/sales-analysis">Sales Data Analysis</a> — Data analytics dashboard and visual reporting.</li>
+            <li><a href="/project/smart-chatbot">Smart Chatbot</a> — Arabic-friendly NLP assistant.</li>
+            <li><a href="/project/task-management">Task Management System</a> — Team project tracking and workflow management.</li>
+            <li><a href="/project/recommendation-system">Recommendation System</a> — Personalized recommendations using machine learning.</li>
+          </ul>
+        </section>
+        <nav aria-label="Portfolio links">
+          <a href="/">Home</a>
+          <a href="https://github.com/mohamedtayal">GitHub</a>
+          <a href="https://www.linkedin.com/in/mohamedtayal">LinkedIn</a>
+        </nav>
+      </main>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
