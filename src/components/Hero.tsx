@@ -148,9 +148,14 @@ export const Hero = () => {
               
               {/* Portrait Container */}
               <div className="relative w-full h-full rounded-full overflow-hidden bg-black">
-                <img 
-                  src="/images/profile.jpg" 
-                  alt="Mohamed Tayal" 
+                <img
+                  src="/images/profile.jpg"
+                  alt="Portrait of Mohamed Tayal, AI Engineer and Full Stack Developer"
+                  width={315}
+                  height={433}
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
                   className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                 />
               </div>

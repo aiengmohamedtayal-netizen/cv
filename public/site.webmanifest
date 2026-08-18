@@ -1,7 +1,11 @@
 {
   "name": "Mohamed Tayal — AI Engineer & Full-stack Builder",
-  "short_name": "Mohamed Tayal Portfolio",
+  "short_name": "Mohamed Tayal",
+  "description": "Portfolio of Mohamed Tayal, AI Engineer and Full Stack Developer.",
+  "lang": "en",
+  "id": "/",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#090a0f",
   "theme_color": "#0af5d1",

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, CheckCircle2, ChevronRight, Github, Globe } from "lucide-react";
 import { projectsData } from "@/data/projects";
 import { CursorGlow } from "@/components/CursorGlow";
+import SeoHead, { SITE_URL, DEFAULT_OG_IMAGE } from "@/components/SEO";
 
 export const ProjectCaseStudy = () => {
   const { id } = useParams<{ id: string }>();
@@ -15,13 +16,65 @@ export const ProjectCaseStudy = () => {
   }, [id]);
 
   if (!project) {
-    return <Navigate to="/404" replace />;
+    return (
+      <>
+        <SeoHead
+          title="Project Not Found | Mohamed Tayal"
+          description="The requested project case study could not be found. Return to Mohamed Tayal's portfolio to explore available work."
+          path="/404"
+          noindex
+        />
+        <Navigate to="/404" replace />
+      </>
+    );
   }
 
   const { caseStudy } = project;
+  const projectPath = `/project/${project.id}`;
+  const projectUrl = `${SITE_URL}${projectPath}`;
+  const pageTitle = `${project.title} Case Study | Mohamed Tayal`;
+  const pageDescription = `${project.desc} Explore the architecture, technologies, results, and future improvements behind this project.`;
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CreativeWork",
+        "@id": `${projectUrl}#case-study`,
+        name: project.title,
+        description: project.desc,
+        url: projectUrl,
+        image: DEFAULT_OG_IMAGE,
+        author: {
+          "@type": "Person",
+          name: "Mohamed Tayal",
+          url: SITE_URL,
+        },
+        about: project.tag,
+        keywords: project.tech,
+        mainEntityOfPage: projectUrl,
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: "Projects", item: `${SITE_URL}/#projects` },
+          { "@type": "ListItem", position: 3, name: project.title, item: projectUrl },
+        ],
+      },
+    ],
+  };
 
   return (
-    <main className="relative min-h-screen pb-32">
+    <>
+      <SeoHead
+        title={pageTitle}
+        description={pageDescription}
+        path={projectPath}
+        image={DEFAULT_OG_IMAGE}
+        type="article"
+        jsonLd={structuredData}
+      />
+      <main className="relative min-h-screen pb-32">
       <CursorGlow />
       
       {/* Dynamic Background */}
@@ -40,6 +93,16 @@ export const ProjectCaseStudy = () => {
       </nav>
 
       <div className="container max-w-4xl pt-32">
+        <nav aria-label="Breadcrumb" className="mb-10 text-sm text-muted-foreground">
+          <ol className="flex flex-wrap items-center gap-2">
+            <li><Link to="/" className="hover:text-foreground transition-colors">Home</Link></li>
+            <li aria-hidden="true"><ChevronRight size={14} /></li>
+            <li><Link to="/#projects" className="hover:text-foreground transition-colors">Projects</Link></li>
+            <li aria-hidden="true"><ChevronRight size={14} /></li>
+            <li aria-current="page" className="text-foreground">{project.title}</li>
+          </ol>
+        </nav>
+
         {/* Header Section */}
         <header className="mb-20">
           <motion.div 
@@ -88,7 +151,7 @@ export const ProjectCaseStudy = () => {
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
           
           <div className="relative z-10 text-center px-6">
-            <h2 className="font-display text-4xl font-bold opacity-30 tracking-widest uppercase mix-blend-overlay">System Architecture</h2>
+            <p className="font-display text-4xl font-bold opacity-30 tracking-widest uppercase mix-blend-overlay" aria-hidden="true">System Architecture</p>
           </div>
         </motion.div>
 
@@ -99,13 +162,13 @@ export const ProjectCaseStudy = () => {
           <section className="grid md:grid-cols-2 gap-12">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}>
               <div className="section-eyebrow mb-4">01. Overview</div>
-              <h3 className="text-2xl font-display font-semibold mb-4">The Challenge</h3>
+              <h2 className="text-2xl font-display font-semibold mb-4">The Challenge</h2>
               <p className="text-editorial text-lg">{caseStudy.problem}</p>
             </motion.div>
             
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ delay: 0.1 }}>
               <div className="section-eyebrow mb-4">02. Approach</div>
-              <h3 className="text-2xl font-display font-semibold mb-4">The Solution</h3>
+              <h2 className="text-2xl font-display font-semibold mb-4">The Solution</h2>
               <p className="text-editorial text-lg">{caseStudy.solution}</p>
             </motion.div>
           </section>
@@ -114,7 +177,7 @@ export const ProjectCaseStudy = () => {
           <section>
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}>
               <div className="section-eyebrow mb-4">03. Engineering</div>
-              <h3 className="text-3xl font-display font-semibold mb-10">System Architecture</h3>
+              <h2 className="text-3xl font-display font-semibold mb-10">System Architecture</h2>
             </motion.div>
             
             <div className="grid sm:grid-cols-3 gap-6">
@@ -141,7 +204,7 @@ export const ProjectCaseStudy = () => {
           <section className="grid md:grid-cols-2 gap-12">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}>
               <div className="section-eyebrow mb-4">04. Stack</div>
-              <h3 className="text-3xl font-display font-semibold mb-6">Technologies Used</h3>
+              <h2 className="text-3xl font-display font-semibold mb-6">Technologies Used</h2>
               <div className="flex flex-wrap gap-3">
                 {project.tech.map((t) => (
                   <span key={t} className="chip text-sm py-2 px-4 border-foreground/10">{t}</span>
@@ -151,7 +214,7 @@ export const ProjectCaseStudy = () => {
 
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ delay: 0.1 }}>
               <div className="section-eyebrow mb-4">05. Results</div>
-              <h3 className="text-3xl font-display font-semibold mb-6">Performance Metrics</h3>
+              <h2 className="text-3xl font-display font-semibold mb-6">Performance Metrics</h2>
               <div className="space-y-4">
                 {caseStudy.performance.map((metric, idx) => (
                   <div key={idx} className="flex justify-between items-center p-4 rounded-xl glass">
@@ -167,7 +230,7 @@ export const ProjectCaseStudy = () => {
           <section>
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}>
               <div className="section-eyebrow mb-4">06. Next Steps</div>
-              <h3 className="text-3xl font-display font-semibold mb-8">Future Improvements</h3>
+              <h2 className="text-3xl font-display font-semibold mb-8">Future Improvements</h2>
               
               <div className="space-y-4 max-w-3xl">
                 {caseStudy.future.map((item, idx) => (
@@ -182,7 +245,8 @@ export const ProjectCaseStudy = () => {
 
         </div>
       </div>
-    </main>
+      </main>
+    </>
   );
 };
 
