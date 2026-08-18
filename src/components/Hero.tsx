@@ -64,7 +64,7 @@ export const Hero = () => {
       <motion.div style={{ opacity }} className="container relative grid lg:grid-cols-[1.15fr_1fr] gap-12 items-center">
         <div>
           <motion.div
-            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 16 }} 
+            initial={false}
             animate={{ opacity: 1, y: 0 }} 
             transition={{ delay: 0.1, duration: 0.6 }}
             className="section-eyebrow"
@@ -73,7 +73,7 @@ export const Hero = () => {
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 24 }} 
+            initial={false}
             animate={{ opacity: 1, y: 0 }} 
             transition={{ delay: 0.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="mt-6 font-display text-fluid-hero text-foreground tracking-[-0.03em]"
@@ -85,7 +85,7 @@ export const Hero = () => {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 16 }} 
+            initial={false}
             animate={{ opacity: 1, y: 0 }} 
             transition={{ delay: 0.35, duration: 0.7 }}
             className="mt-6 text-editorial text-lg md:text-xl"
@@ -94,7 +94,7 @@ export const Hero = () => {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 16 }} 
+            initial={false}
             animate={{ opacity: 1, y: 0 }} 
             transition={{ delay: 0.5, duration: 0.6 }}
             className="mt-10 flex flex-col sm:flex-row items-center gap-4"
@@ -108,7 +108,7 @@ export const Hero = () => {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0 }} 
+            initial={false}
             animate={{ opacity: 1 }} 
             transition={{ delay: 0.8 }}
             className="mt-10 flex items-center gap-6 text-xs font-mono text-muted-foreground"
@@ -126,7 +126,7 @@ export const Hero = () => {
 
         {/* Terminal card with Floating Duotone Avatar */}
         <motion.div
-          initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 30, rotateX: shouldReduceMotion ? 0 : 8 }} 
+          initial={false}
           animate={{ opacity: 1, y: 0, rotateX: 0 }}
           transition={{ delay: 0.4, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="relative lg:ml-auto w-full max-w-[480px] mt-12 lg:mt-0"
@@ -134,7 +134,7 @@ export const Hero = () => {
         >
           {/* Floating Premium Portrait (Duotone) */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            initial={false}
             animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
             transition={{ 
               opacity: { delay: 0.8, duration: 0.8 },
